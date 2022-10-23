@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
@@ -47,14 +48,13 @@ export default function ResultCard({
             spaceBetween={50}
             slidesPerView={1}
             onSlideChange={(swiper) => setCurrentSlide(swiper.activeIndex)}
-            onSwiper={(swiper) => console.log(swiper)}
             onBeforeInit={(swiper) => {
               swiperRef.current = swiper;
             }}
           >
             {images.map((url) => (
               <SwiperSlide key={url}>
-                <img src={url} />
+                <img src={url} alt='image not found' />
               </SwiperSlide>
             ))}
           </Swiper>
@@ -68,7 +68,7 @@ export default function ResultCard({
           <HeartIcon className='h-5' onClick={() => setLiked(true)}></HeartIcon>
         )}
 
-        <div className='px-5 pt-2'>Hello</div>
+        <div className='px-5 pt-2'>{prompt}</div>
       </div>
     </div>
   );

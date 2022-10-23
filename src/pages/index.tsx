@@ -1,5 +1,5 @@
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { PromptZero } from 'promptzero';
+import { PromptRequest, PromptZero } from 'promptzero';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -9,33 +9,29 @@ import UnderlineLink from '@/components/links/UnderlineLink';
 import ResultCard from '@/components/ResultCard';
 import Seo from '@/components/Seo';
 
-/**
- * SVGR Support
- * Caveat: No React Props Type.
- *
- * You can override the next-env if the type is important to you
- * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
- */
+const promptZero = new PromptZero('Q734T4A-5KEEXLY-V6A2SVQ-RFYX7QY');
 
-// Before you begin editing, follow all comments with `STARTERCONF`,
-// to customize the default configuration.
-
-interface ImageResult {
-  url: string;
-}
-
-interface Pagination {
-  images: ImageResult[];
+function ResultBreak() {
+  return (
+    <div className='relative'>
+      <div className='absolute inset-0 flex items-center' aria-hidden='true'>
+        <div className='w-full border-t border-gray-300' />
+      </div>
+      <div className='justify-left relative flex'>
+        <span className='bg-white px-2 text-sm text-gray-500'>Results</span>
+      </div>
+    </div>
+  );
 }
 
 export default function HomePage() {
-  const [prompts, setPrompts] = useState<any>();
+  const [prompts, setPrompts] = useState<PromptRequest[]>();
 
   useEffect(() => {
-    const promptZero = new PromptZero('Q734T4A-5KEEXLY-V6A2SVQ-RFYX7QY');
     promptZero
       .getPrompts()
-      .then((x) => setPrompts(x['data']['requestedPrompts']))
+      .then((x) => setPrompts(x.data.requestedPrompts))
+      // eslint-disable-next-line no-console
       .catch((x) => console.error(x));
   }, []);
 
@@ -45,50 +41,42 @@ export default function HomePage() {
       <main className='overflow-hidden overflow-x-hidden'>
         <section className='bg-white'>
           <div className=''>
-            <div className='p-2'>
-              <div className='p-3 text-gray-500'>
-                Describe what you want in detail
+            <div>
+              <div className='p-2'>
+                <div className='p-3 text-gray-500'>
+                  Describe what you want in detail
+                </div>
+                <Input onCreate={(p) => promptZero.requestNewPrompt(p)}></Input>
               </div>
-              <Input></Input>
-            </div>
 
-            <div className='mx-5 flex flex-row justify-end text-black focus:border'>
-              <button className='flex flex-initial flex-row items-center'>
-                <div className='flex-initial'>advanced</div>
-                <ChevronDownIcon className='h-3 flex-initial pl-1'></ChevronDownIcon>
-              </button>
-            </div>
-
-            <div className='relative'>
-              <div
-                className='absolute inset-0 flex items-center'
-                aria-hidden='true'
-              >
-                <div className='w-full border-t border-gray-300' />
-              </div>
-              <div className='justify-left relative flex'>
-                <span className='bg-white px-2 text-sm text-gray-500'>
-                  Results
-                </span>
+              <div className='mx-5 flex flex-row justify-end text-black focus:border'>
+                <button className='flex flex-initial flex-row items-center'>
+                  <div className='flex-initial'>advanced</div>
+                  <ChevronDownIcon className='h-3 flex-initial pl-1'></ChevronDownIcon>
+                </button>
               </div>
             </div>
+            <ResultBreak />
 
-            <ResultCard
-              images={[
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlif-IZBQ_wIbnddxToQw1gAnkk5VSBdZcB6ZeFHe5w&s',
-              ]}
-            />
-
-            <ResultCard
-              images={[
-                'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlif-IZBQ_wIbnddxToQw1gAnkk5VSBdZcB6ZeFHe5w&s',
-              ]}
-            />
+            {prompts?.map((p) => {
+              const result = p.result ?? undefined;
+              if (result === undefined) {
+                return <>Loading...</>;
+              } else if (result.__typename === 'Result_StableDiffusionV1_4') {
+                return (
+                  <ResultCard
+                    key={p.id}
+                    images={result.images.map((i) => i.url)}
+                    prompt={p.prompt}
+                  />
+                );
+              } else {
+                return <>Loading...</>;
+              }
+            })}
           </div>
-          <div className='layout flex flex-col items-center justify-center text-center'>
-            <footer className='absolute bottom-2 text-gray-700'>
+          <div className='flex flex-col items-center justify-center text-center'>
+            <footer className='bottom-2 text-gray-700'>
               © {new Date().getFullYear()} By{' '}
               <UnderlineLink href='#'>Plunkio LLC</UnderlineLink>
             </footer>
