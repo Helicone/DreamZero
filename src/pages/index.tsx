@@ -1,4 +1,9 @@
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import {
+  ChevronDownIcon,
+  PlusCircleIcon,
+  RocketLaunchIcon,
+  UserCircleIcon,
+} from '@heroicons/react/24/outline';
 import { PromptRequest, PromptZero } from 'promptzero';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
@@ -82,7 +87,18 @@ export default function HomePage() {
             </footer>
           </div>
         </section>
+        <div className='h-16'></div>
       </main>
+      <footer
+        className='fixed left-0 bottom-0 z-20
+            flex h-16 w-full flex-col justify-center bg-white'
+      >
+        <div className='flex flex-row'>
+          <RocketLaunchIcon className='h-8 flex-1 self-center text-center' />
+          <PlusCircleIcon className='h-12 flex-1 self-center text-center' />
+          <UserCircleIcon className='h-8 flex-1 self-center text-center' />
+        </div>
+      </footer>
     </Layout>
   );
 }
