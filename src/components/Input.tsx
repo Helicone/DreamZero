@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
 export default function Input({
+  loading,
   onCreate,
 }: {
+  loading: boolean;
   onCreate: (prompt: string) => void;
 }) {
   const [description, setDescription] = useState('');
@@ -39,13 +41,22 @@ export default function Input({
       <div className='absolute inset-x-px bottom-0'>
         <div className='flex items-center justify-between space-x-3 border-t border-gray-200 px-2 py-2 sm:px-3'>
           <button
-            className='inline-flex w-full content-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-semibold text-black shadow-sm hover:bg-slate-200 focus:outline-none focus:ring-2 '
+            disabled={loading}
+            className={classNames(
+              'inline-flex w-full content-center justify-center rounded-md border border-transparent px-4 py-2 text-sm font-semibold text-black shadow-sm  focus:outline-none focus:ring-2 ',
+              loading ? 'bg-blue-400' : 'hover:bg-slate-200'
+            )}
             onClick={() => onCreate(description)}
           >
-            Create
+            {loading ? 'Loading' : 'Create'}
           </button>
         </div>
       </div>
     </div>
   );
+}
+
+type StringBool = string | boolean;
+function classNames(...args: StringBool[]): string | undefined {
+  return args.filter(Boolean).join(' ');
 }
