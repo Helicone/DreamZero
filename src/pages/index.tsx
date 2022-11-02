@@ -62,7 +62,7 @@ export default function HomePage() {
   }
   React.useEffect(() => {
     const key = localStorage.getItem('key');
-    if (key !== null) {
+    if (key !== null && promptZero === undefined) {
       initAndSetPromptZero(key);
     }
   });
