@@ -64,7 +64,7 @@ export default function HomePage() {
     if (key !== null) {
       initAndSetPromptZero(key);
     }
-  }, []);
+  });
   return (
     <Layout>
       <Seo />

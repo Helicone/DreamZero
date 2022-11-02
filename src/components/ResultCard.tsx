@@ -39,22 +39,10 @@ function InternalResultCard({
   prompt: string;
   onDelete: () => void;
 }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [liked, setLiked] = useState(false);
-  const swiperRef = useRef<SwiperClass>();
   return (
     <div className='py-5'>
       <div className='overflow-hidden rounded-md border-t border-b border-gray-300 py-5 shadow-sm'>
         {image}
-        {/* {liked ? (
-      <HeartIcon
-        className='h-5 fill-red-500 text-red-800 text-opacity-40'
-        onClick={() => setLiked(false)}
-      ></HeartIcon>
-    ) : (
-      <HeartIcon className='h-5' onClick={() => setLiked(true)}></HeartIcon>
-    )} */}
-
         <div className='px-5 pt-2'>
           <div className='flex flex-row justify-between'>
             <div>{prompt}</div>
@@ -78,7 +66,6 @@ export default function ResultCard({
   onDelete: () => void;
 }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [liked, setLiked] = useState(false);
   const swiperRef = useRef<SwiperClass>();
   const Image = (
     <div className='relative'>

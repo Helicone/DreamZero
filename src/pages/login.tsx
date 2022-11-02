@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 /*
   This example requires some changes to your config:
   
@@ -142,7 +143,6 @@ export default function Example() {
                     href='#'
                     className='inline-flex w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-500 shadow-sm hover:bg-gray-50'
                     onClick={() => {
-                      console.log('Hello');
                       signIn();
                     }}
                   >
