@@ -7,6 +7,7 @@ import {
 import { initPromptZero, PromptRequest, PromptZero } from 'promptzero';
 import * as React from 'react';
 import { useState } from 'react';
+import { ImGithub } from 'react-icons/im';
 
 import Button from '@/components/buttons/Button';
 import Input from '@/components/Input';
@@ -151,10 +152,25 @@ export default function HomePage() {
                   }
                 })}
               </div>
-              <div className='flex flex-col items-center justify-center text-center'>
-                <footer className='bottom-2 text-gray-700'>
-                  © {new Date().getFullYear()} By{' '}
-                  <UnderlineLink href='#'>Plunkio LLC</UnderlineLink>
+              <div className='mx-2 flex flex-col items-center justify-center text-center'>
+                <footer className='bottom-2  w-full text-gray-700'>
+                  <div className='flex flex-row justify-between'>
+                    <div>
+                      © {new Date().getFullYear()} By{' '}
+                      <UnderlineLink href='#'>Plunkio LLC</UnderlineLink>
+                    </div>
+                    <div>
+                      <a
+                        className='flex flex-row items-center gap-2'
+                        href='https://github.com/PromptZero/DreamZero'
+                        target='_blank'
+                        rel='noreferrer'
+                      >
+                        Github
+                        <ImGithub />
+                      </a>
+                    </div>
+                  </div>
                 </footer>
               </div>
             </section>
